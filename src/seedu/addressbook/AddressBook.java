@@ -112,10 +112,10 @@ public class AddressBook {
     private static final String COMMAND_FIND_EXAMPLE = COMMAND_FIND_WORD + " alice bob charlie";
 
     private static final String COMMAND_FNUM = "fnum";
-    private static final String COMMAND_FNUM_DESC = "Finds all persons whose number contain the number searched "
-            + "and displays them as a list in an index manner.";
+    private static final String COMMAND_FNUM_DESC = "Finds all persons whose number contains the numbers searched "
+            + "and displays them as a list in an index manner. Put spaces between different phone numbers to be searched.";
     private static final String COMMAND_FNUM_PARAMETERS = "KEYWORD [MORE_KEYWORDS]";
-    private static final String COMMAND_FNUM_EXAMPLE = COMMAND_FIND_WORD + " alice bob charlie";
+    private static final String COMMAND_FNUM_EXAMPLE = COMMAND_FNUM + "081808" ;
 
     private static final String COMMAND_LIST_WORD = "list";
     private static final String COMMAND_LIST_DESC = "Displays all persons as a list with index numbers.";
@@ -473,6 +473,7 @@ public class AddressBook {
      */
     private static String executeFnum(String commandArgs) {
         final Set<String> keywords = extractKeywordsFromFindPersonArgs(commandArgs);
+//        make some changes below this line >>
         final ArrayList<String[]> personsFound = getPersonsWithNameContainingAnyKeyword(keywords);
         showToUser(personsFound);
         return getMessageForPersonsDisplayedSummary(personsFound);
@@ -488,13 +489,13 @@ public class AddressBook {
     }
 
     /**
-     * Extracts keywords from the command arguments given for the find persons command.
+     * Extracts keywords from the command arguments given for the find and fnum persons command.
      *
-     * @param findPersonCommandArgs full command args string for the find persons command
+     * @param findCommandArgs full command args string for the find persons command
      * @return set of keywords as specified by args
      */
-    private static Set<String> extractKeywordsFromFindPersonArgs(String findPersonCommandArgs) {
-        return new HashSet<>(splitByWhitespace(findPersonCommandArgs.trim()));
+    private static Set<String> extractKeywordsFromFindPersonArgs(String findCommandArgs) {
+        return new HashSet<>(splitByWhitespace(findCommandArgs.trim()));
     }
 
     /**
