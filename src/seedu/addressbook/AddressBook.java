@@ -109,7 +109,7 @@ public class AddressBook {
     private static final String COMMAND_FNUM_DESC = "Finds all persons whose number contains the numbers searched "
             + "and displays them as a list in an index manner. Put spaces between different phone numbers to be searched.";
     private static final String COMMAND_FNUM_PARAMETERS = "KEYWORD [MORE_KEYWORDS]";
-    private static final String COMMAND_FNUM_EXAMPLE = COMMAND_FNUM + "081808" ;
+    private static final String COMMAND_FNUM_EXAMPLE = COMMAND_FNUM + " 081808 133 00" ;
 
     private static final String COMMAND_LIST_WORD = "list";
     private static final String COMMAND_LIST_DESC = "Displays all persons as a list with index numbers.";
