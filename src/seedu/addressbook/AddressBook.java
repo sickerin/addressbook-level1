@@ -474,7 +474,7 @@ public class AddressBook {
     private static String executeFnum(String commandArgs) {
         final Set<String> keywords = extractKeywordsFromFindPersonArgs(commandArgs);
 //        make some changes below this line >>
-        final ArrayList<String[]> personsFound = getPersonsWithNameContainingAnyKeyword(keywords);
+        final ArrayList<String[]> personsFound = getPersonsWithNumberContainingAnyKeyword(keywords);
         showToUser(personsFound);
         return getMessageForPersonsDisplayedSummary(personsFound);
     }
@@ -511,6 +511,30 @@ public class AddressBook {
             if (!Collections.disjoint(wordsInName, keywords)) {
                 matchedPersons.add(person);
             }
+        }
+        return matchedPersons;
+    }
+
+    /**
+     * Retrieves all persons in the full model whose number contain some of the specified keywords.
+     *
+     * @param keywords for searching
+     * @return list of persons in full model with phone number containing some of the keywords
+     */
+    private static ArrayList<String[]> getPersonsWithNumberContainingAnyKeyword(Collection<String> keywords) {
+        final ArrayList<String[]> matchedPersons = new ArrayList<>();
+        for (String[] person : getAllPersonsInAddressBook()) {
+            final String sequenceInNumber = splitByWhitespace(getPhoneFromPerson(person)).get(0);
+//          using two for loops might not be so efficient
+            for (String key : keywords){
+                if (sequenceInNumber.contains(key)){
+                    matchedPersons.add(person);
+                }
+
+            }
+//            if (!Collections.disjoint(sequenceInNumber, keywords)) {
+//                matchedPersons.add(person);
+//            }
         }
         return matchedPersons;
     }
