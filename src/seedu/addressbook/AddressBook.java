@@ -66,6 +66,7 @@ public class AddressBook {
      * =========================================================================
      */
     private static final String MESSAGE_ADDED = "New person added: %1$s, Phone: %2$s, Email: %3$s";
+    private static final String MESSAGE_PERSON_ADDED_ALREADY = "This record already exists in the addressbook ";
     private static final String MESSAGE_ADDRESSBOOK_CLEARED = "Address book has been cleared!";
     private static final String MESSAGE_COMMAND_HELP = "%1$s: %2$s";
     private static final String MESSAGE_COMMAND_HELP_PARAMETERS = "\tParameters: %1$s";
@@ -434,6 +435,9 @@ public class AddressBook {
 
         // add the person as specified
         final String[] personToAdd = decodeResult.get();
+        if (ALL_PERSONS.contains(personToAdd)){
+            return  getMessage
+        }
         addPersonToAddressBook(personToAdd);
         return getMessageForSuccessfulAddPerson(personToAdd);
     }
@@ -446,6 +450,19 @@ public class AddressBook {
      * @return successful add person feedback message
      */
     private static String getMessageForSuccessfulAddPerson(String[] addedPerson) {
+        return String.format(MESSAGE_ADDED,
+                getNameFromPerson(addedPerson), getPhoneFromPerson(addedPerson), getEmailFromPerson(addedPerson));
+    }
+
+
+    /**
+     * Constructs a feedback message for a successful add person command execution.
+     *
+     * @see #executeAddPerson(String)
+     * @param addedPerson person who was successfully added
+     * @return successful add person feedback message
+     */
+    private static String getMessageForPersonExisting(String[] addedPerson) {
         return String.format(MESSAGE_ADDED,
                 getNameFromPerson(addedPerson), getPhoneFromPerson(addedPerson), getEmailFromPerson(addedPerson));
     }
@@ -1130,6 +1147,7 @@ public class AddressBook {
     private static String getUsageInfoForAllCommands() {
         return getUsageInfoForAddCommand() + LS
                 + getUsageInfoForFindCommand() + LS
+                + getUsageInfoForFnumCommand() + LS
                 + getUsageInfoForViewCommand() + LS
                 + getUsageInfoForDeleteCommand() + LS
                 + getUsageInfoForClearCommand() + LS
@@ -1150,6 +1168,14 @@ public class AddressBook {
                 + String.format(MESSAGE_COMMAND_HELP_PARAMETERS, COMMAND_FIND_PARAMETERS) + LS
                 + String.format(MESSAGE_COMMAND_HELP_EXAMPLE, COMMAND_FIND_EXAMPLE) + LS;
     }
+
+    /** Returns the string for showing 'fnum' command usage instruction */
+    private static String getUsageInfoForFnumCommand() {
+        return String.format(MESSAGE_COMMAND_HELP, COMMAND_FNUM, COMMAND_FNUM) + LS
+                + String.format(MESSAGE_COMMAND_HELP_PARAMETERS, COMMAND_FNUM_PARAMETERS) + LS
+                + String.format(MESSAGE_COMMAND_HELP_EXAMPLE, COMMAND_FNUM_PARAMETERS) + LS;
+    }
+
 
     /** Returns the string for showing 'delete' command usage instruction */
     private static String getUsageInfoForDeleteCommand() {
