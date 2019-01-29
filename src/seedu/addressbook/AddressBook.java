@@ -540,11 +540,20 @@ public class AddressBook {
         final ArrayList<String[]> matchedPersons = new ArrayList<>();
         for (String[] person : getAllPersonsInAddressBook()) {
             final String sequenceInNumber = splitByWhitespace(getPhoneFromPerson(person)).get(0);
-//          using two for loops might not be so efficient
+//          using many loops might not be so efficient, hashing is better
             for (String key : keywords){
 
                 if (sequenceInNumber.contains(key)){
-                    matchedPersons.add(person);
+                    boolean add = true;
+                    for (String[] p: matchedPersons) {
+                        if (Arrays.equals(p, person)) {
+                            add = false;
+                        }
+                    }
+                    if (add == true){
+                        matchedPersons.add(person);
+                    }
+
                 }
 
             }
@@ -1170,9 +1179,9 @@ public class AddressBook {
 
     /** Returns the string for showing 'fnum' command usage instruction */
     private static String getUsageInfoForFnumCommand() {
-        return String.format(MESSAGE_COMMAND_HELP, COMMAND_FNUM, COMMAND_FNUM) + LS
+        return String.format(MESSAGE_COMMAND_HELP, COMMAND_FNUM, COMMAND_FNUM_DESC) + LS
                 + String.format(MESSAGE_COMMAND_HELP_PARAMETERS, COMMAND_FNUM_PARAMETERS) + LS
-                + String.format(MESSAGE_COMMAND_HELP_EXAMPLE, COMMAND_FNUM_PARAMETERS) + LS;
+                + String.format(MESSAGE_COMMAND_HELP_EXAMPLE, COMMAND_FNUM_EXAMPLE) + LS;
     }
 
 
