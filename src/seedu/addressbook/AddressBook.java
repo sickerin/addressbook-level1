@@ -14,14 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 /*
  * NOTE : =============================================================
@@ -435,8 +428,15 @@ public class AddressBook {
 
         // add the person as specified
         final String[] personToAdd = decodeResult.get();
-        if (ALL_PERSONS.contains(personToAdd)){
-            return  getMessage
+//        List AP = Arrays.asList(ALL_PERSONS).get(0);
+//        List A = Arrays.asList(personToAdd);
+//        String listAsString = getDisplayString(ALL_PERSONS);
+//        String[] listStringSplit =  listAsString.split("\r\n||");
+//        int result = Collections.indexOfSubList(Arrays.asList(ALL_PERSONS).get(0), Arrays.asList(personToAdd));
+        for (String[] person : getAllPersonsInAddressBook()) {
+             if (Arrays.equals(person, personToAdd)) {
+                 return getMessageForPersonExisting();
+            }
         }
         addPersonToAddressBook(personToAdd);
         return getMessageForSuccessfulAddPerson(personToAdd);
@@ -456,15 +456,13 @@ public class AddressBook {
 
 
     /**
-     * Constructs a feedback message for a successful add person command execution.
+     * Constructs a feedback message for a person existing in address book.
      *
      * @see #executeAddPerson(String)
-     * @param addedPerson person who was successfully added
      * @return successful add person feedback message
      */
-    private static String getMessageForPersonExisting(String[] addedPerson) {
-        return String.format(MESSAGE_ADDED,
-                getNameFromPerson(addedPerson), getPhoneFromPerson(addedPerson), getEmailFromPerson(addedPerson));
+    private static String getMessageForPersonExisting() {
+        return String.format(MESSAGE_PERSON_ADDED_ALREADY);
     }
 
     /**
@@ -544,6 +542,7 @@ public class AddressBook {
             final String sequenceInNumber = splitByWhitespace(getPhoneFromPerson(person)).get(0);
 //          using two for loops might not be so efficient
             for (String key : keywords){
+
                 if (sequenceInNumber.contains(key)){
                     matchedPersons.add(person);
                 }
